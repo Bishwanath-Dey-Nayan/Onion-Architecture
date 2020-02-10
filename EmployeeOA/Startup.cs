@@ -11,6 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using OA.Repository.Interface;
+using OA.Repository.Repository;
+using OA.Services.Interfaces;
+using OA.Services.Services;
 
 namespace EmployeeOA
 {
@@ -28,6 +32,14 @@ namespace EmployeeOA
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<OA.Repository.ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //dependency Registration for the Services
+            services.AddTransient<IEmployeeServices, EmployeeServices>();
+
+
+            //dependency Registration for the Repository
+
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
